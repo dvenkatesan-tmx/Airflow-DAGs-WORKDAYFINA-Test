@@ -18,11 +18,15 @@ default_args = {
 
 # Instantiate the DAG
 dag = DAG(
-    'sample_dag',
+    'wd_dag1',
     default_args=default_args,
     description='A simple sample DAG',
     schedule_interval=timedelta(days=1),  # Runs once a day
 )
+
+dag_tags = [
+    'business_domain:WORKDAY'
+]
 
 # Define the tasks
 start_task = DummyOperator(
