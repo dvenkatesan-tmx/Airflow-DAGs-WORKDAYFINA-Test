@@ -22,11 +22,8 @@ dag = DAG(
     default_args=default_args,
     description='A simple sample DAG',
     schedule_interval=timedelta(days=1),  # Runs once a day
+    tags=['WORKDAY'],
 )
-
-dag_tags = [
-    'business_domain:WORKDAY'
-]
 
 # Define the tasks
 start_task = DummyOperator(
