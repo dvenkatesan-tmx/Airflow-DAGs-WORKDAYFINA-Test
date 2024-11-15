@@ -1,0 +1,16 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      - pip install -r requirements.txt  # Install dependencies
+  pre_build:
+    commands:
+      - echo Running linting checks
+      - bash scripts/linting-checks.sh  # Run linting checks (flake8, pylint)
+  build:
+    commands:
+      - echo Running unit tests
+      - pytest tests/  # Run unit tests located in the tests directory
+artifacts:
+  files:
+    - '**/*'
