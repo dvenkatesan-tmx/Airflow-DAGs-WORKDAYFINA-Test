@@ -4,8 +4,24 @@ phases:
     commands:
   pre_build:
     commands:
-  post_build:
+      - echo Checking for modified DAG files...
+
+      # Get the list of modified files in the 'dags/' folder
+      - export MODIFIED_FILES=$(git diff --name-only HEAD~1 HEAD | grep '^dags/')
+      
+      # Verify if there are modified files to deploy
+      - if [ -z "$MODIFIED_FILES" ]; then echo "No changes in DAG files to deploy."; fi
+      
+  build:
     commands:
-      - echo "Deploying DAGs to S3"
-      - aws s3 sync ./dags s3://airflow-dags-production-bucket-new/dags/WORKDAYFINA --exact-timestamps
-      - aws s3 sync ./tests s3://airflow-dags-production-bucket-new/dags/MX-DERIVATIVES --exact-timestamps
+      - echo Deploying modified files to S3...
+
+      # Sync only modified files if there are any
+      - |
+        if [ -n "$MODIFIED_FILES" ]; then
+          for file in $MODIFIED_FILES; do
+            aws s3 cp "$file" "s3://airflow-dags-production-bucket-new/$file" --exact-timestamps
+          done
+        else
+          echo "No DAG files were changed, skipping deployment."
+        fi
