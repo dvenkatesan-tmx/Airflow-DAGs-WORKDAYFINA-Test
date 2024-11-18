@@ -27,7 +27,7 @@ with DAG(
     'wd_dag1',
     default_args=default_args,
     description='Workday DAG for processing data',
-    schedule_interval=None,
+    schedule_interval=Daily,
     tags=['WORKDAY']
 ) as dag:
 
