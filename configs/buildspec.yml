@@ -20,7 +20,7 @@ phases:
       - |
         if [ -n "$MODIFIED_FILES" ]; then
           for file in $MODIFIED_FILES; do
-            aws s3 cp "$file" "s3://airflow-dags-production-bucket-new/$file" --exact-timestamps
+            aws s3 cp "$file" "s3://airflow-dags-production-bucket-new/WORKDAYFINA/$file" --exact-timestamps
           done
         else
           echo "No DAG files were changed, skipping deployment."
