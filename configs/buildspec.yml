@@ -13,4 +13,4 @@ phases:
       - pytest tests/  # Run unit tests located in the tests directory
 artifacts:
   files:
-    - '**/*'
+    - dags/*
