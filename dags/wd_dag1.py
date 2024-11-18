@@ -3,16 +3,20 @@ This DAG is responsible for processing Workday data.
 It performs X, Y, and Z steps in the workflow.
 """
 
+from datetime import datetime  # Standard library import first
+
 from airflow.operators.dummy import DummyOperator
 from airflow.operators.python import PythonOperator
 from airflow import DAG
-from datetime import datetime
+
 
 def process_workday_data():
     """
     This function processes data from Workday.
     """
-    pass  # Add processing logic here
+    # Implement data processing logic here
+    pass  # Replace with actual code or remove if unnecessary
+
 
 default_args = {
     'owner': 'airflow',
