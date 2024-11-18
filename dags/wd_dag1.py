@@ -28,6 +28,7 @@ with DAG(
     default_args=default_args,
     description='Workday DAG for processing data',
     schedule_interval=None,
+    tags=['WORKDAY']
 ) as dag:
 
     start = DummyOperator(
