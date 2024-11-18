@@ -8,7 +8,4 @@ phases:
     commands:
       - echo "Deploying DAGs to S3"
       - aws s3 sync ./dags s3://airflow-dags-production-bucket-new/dags/WORKDAYFINA --exact-timestamps
-artifacts:
-  files:
-    - dags/*
-  discard-paths: yes
+      - aws s3 sync ./tests s3://airflow-dags-production-bucket-new/dags/MX-DERIVATIVES --exact-timestamps
