@@ -1,45 +1,38 @@
-from datetime import datetime, timedelta
+"""
+This DAG is responsible for processing Workday data.
+It performs X, Y, and Z steps in the workflow.
+"""
+
+from airflow.operators.dummy import DummyOperator
+from airflow.operators.python import PythonOperator
 from airflow import DAG
-from airflow.operators.dummy_operator import DummyOperator
-from airflow.operators.python_operator import PythonOperator
+from datetime import datetime
 
-# Function to be executed by PythonOperator
-def print_hello():
-    print("Hello, Airflow!")
+def process_workday_data():
+    """
+    This function processes data from Workday.
+    """
+    pass  # Add processing logic here
 
-# Default arguments for the DAG
 default_args = {
     'owner': 'airflow',
-    'depends_on_past': False,
-    'start_date': datetime(2024, 11, 3),
-    'retries': 1,
-    'retry_delay': timedelta(minutes=5),
+    'start_date': datetime(2024, 11, 18),
 }
 
-# Instantiate the DAG
-dag = DAG(
-    'sample_dag',
+with DAG(
+    'wd_dag1',
     default_args=default_args,
-    description='A simple sample DAG',
-    schedule_interval=timedelta(days=1),  # Runs once a day
-)
+    description='Workday DAG for processing data',
+    schedule_interval=None,
+) as dag:
 
-# Define the tasks
-start_task = DummyOperator(
-    task_id='start',
-    dag=dag,
-)
+    start = DummyOperator(
+        task_id='start'
+    )
 
-hello_task = PythonOperator(
-    task_id='print_hello',
-    python_callable=print_hello,
-    dag=dag,
-)
+    process_data = PythonOperator(
+        task_id='process_workday_data',
+        python_callable=process_workday_data
+    )
 
-end_task = DummyOperator(
-    task_id='end',
-    dag=dag,
-)
-
-# Set task dependencies
-start_task >> hello_task >> end_task
+    start >> process_data
