@@ -5,7 +5,7 @@ It performs X, Y, and Z steps in the workflow.
 
 from datetime import datetime  # Standard library import first
 
-from airflow.operators.dummy import DummyOperator
+from airflow.operators.dummy_operator import DummyOperator  # Corrected import path for Airflow 2.x
 from airflow.operators.python import PythonOperator
 from airflow import DAG
 
@@ -14,8 +14,8 @@ def process_workday_data():
     """
     This function processes data from Workday.
     """
-    # Implement data processing logic here
-    pass  # Replace with actual code or remove if unnecessary
+    # Implement the data processing logic here or leave it empty if not used
+    pass  # Remove if unnecessary
 
 
 default_args = {
