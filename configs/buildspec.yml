@@ -2,14 +2,12 @@ version: 0.2
 phases:
   install:
     commands:
-    
   pre_build:
     commands:
       # Get the list of modified DAG files based on Git diff
       - echo "Fetching modified files"
       - MODIFIED_FILES=$(git diff --name-only HEAD~1 HEAD | grep '^dags/')
       - echo "Modified files: $MODIFIED_FILES"
-
   build:
     commands:
       - echo "Deploying modified DAGs to S3"
