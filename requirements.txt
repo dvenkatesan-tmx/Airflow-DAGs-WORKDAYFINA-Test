@@ -8,5 +8,5 @@ apache-airflow-providers-apache-spark==3.0.0
 boto3>=1.23.9
 
 # Testing and linting tools
-pytest==6.2.4           # For unit testing
+pytest>=7.0.0           # For unit testing
 flake8==3.9.2           # For linting
