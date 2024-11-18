@@ -2,21 +2,8 @@ version: 0.2
 phases:
   install:
     commands:
-  pre_build:
-    commands:
-      # Get the list of modified DAG files based on Git diff
-      - echo "Fetching modified files"
-      - MODIFIED_FILES=$(git diff --name-only HEAD~1 HEAD | grep '^dags/')
   build:
     commands:
-      - echo "Deploying modified DAGs to S3"
-      # Loop over each modified file and sync it individually to S3
-      - |
-        for file in $MODIFIED_FILES; do
-          if [[ -f $file ]]; then
-            DIR_PATH=$(dirname $file)  # Get the directory path of the modified file
-            BUCKET_PATH="s3://airflow-dags-production-bucket-new/$DIR_PATH"
-            echo "Syncing $file to $BUCKET_PATH"
-            aws s3 cp $file $BUCKET_PATH --exact-timestamps
-          fi
-        done
+      - echo "Deploying DAGs to S3"
+      - aws s3 sync ./dags/WORKDAYFINA s3://airflow-dags-production-bucket-new/dags/WORKDAYFINA --exact-timestamps
+      
