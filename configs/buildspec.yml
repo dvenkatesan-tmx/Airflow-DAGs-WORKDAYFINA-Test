@@ -4,8 +4,10 @@ phases:
     commands:
   pre_build:
     commands:
-  build:
+  post_build:
     commands:
+      - echo "Deploying DAGs to S3"
+      - aws s3 sync ./dags s3://airflow-dags-production-bucket-new/dags/WORKDAYFINA --exact-timestamps
 artifacts:
   files:
     - dags/*
