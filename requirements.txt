@@ -1,4 +1,5 @@
-apache-airflow-providers-amazon>=2.7.0
+apache-airflow==2.4.3
+apache-airflow-providers-amazon==2.6.0  # Adjusted to align with boto3 constraint
 apache-airflow-providers-apache-hive==4.0.1
 apache-airflow-providers-apache-spark==3.0.0
 apache-airflow-providers-sqlite==3.2.1
@@ -11,8 +12,7 @@ mysql-connector-python==8.0.27
 mysqlclient==2.0.3
 numpy==1.22.4
 pandas==1.5.1
-boto3>=1.23.9
-apache-airflow==2.4.3
+boto3>=1.15.0, <1.19.0   # Adjusted version range to avoid conflict
 # Testing and linting tools
-pytest==6.2.4           # For unit testing
-flake8==3.9.2           # For linting
+pytest
+flake8==3.9.2
