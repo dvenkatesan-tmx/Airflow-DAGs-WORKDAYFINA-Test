@@ -5,6 +5,5 @@ phases:
   build:
     commands:
       - echo "Deploying DAGs to S3"
-      - aws s3 sync ./dags/WORKDAYFINA s3://airflow-dags-production-bucket-new/dags/WORKDAYFINA --exact-timestamps
-      - aws s3 sync ./dags/MX-DERIVATIVES s3://airflow-dags-production-bucket-new/dags/MX-DERIVATIVES --exact-timestamps
+      - aws s3 sync ./dags s3://airflow-dags-production-bucket-new/dags/WORKDAYFINA --exact-timestamps
       
