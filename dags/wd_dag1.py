@@ -56,16 +56,13 @@ with DAG(
     tags=['WORKDAY']
 ) as dag:
 
-    
     start = DummyOperator(
         task_id='start'
     )
 
-    
     download_and_upload_task = PythonOperator(
         task_id='download_and_upload_script',
         python_callable=download_and_upload_script
     )
 
-    
     start >> download_and_upload_task
