@@ -41,10 +41,12 @@ def download_and_upload_script():
     # Return the file paths for debugging purposes
     return output_local_file
 
+
 default_args = {
     'owner': 'airflow',
     'start_date': datetime(2024, 11, 18),
 }
+
 
 with DAG(
     'wd_dag1',
@@ -54,13 +56,16 @@ with DAG(
     tags=['WORKDAY']
 ) as dag:
 
+    
     start = DummyOperator(
         task_id='start'
     )
 
+    
     download_and_upload_task = PythonOperator(
         task_id='download_and_upload_script',
         python_callable=download_and_upload_script
     )
 
+    
     start >> download_and_upload_task
