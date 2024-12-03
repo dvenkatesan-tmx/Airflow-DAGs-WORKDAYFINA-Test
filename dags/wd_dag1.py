@@ -23,7 +23,7 @@ default_args = {
 
 # Define S3 bucket and paths
 S3_BUCKET = "airflow-dags-production-bucket-new"
-SCRIPTS_PATH = "scripts/sample_script.py"
+SCRIPTS_PATH = "scripts/pyspark/sample_script.py"
 OUTPUT_PATH = "logs/output.txt"
 
 # Helper function to download script from S3
