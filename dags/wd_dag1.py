@@ -4,61 +4,62 @@ It performs X, Y, and Z steps in the workflow
 """
 
 from datetime import datetime, timedelta
-from airflow import DAG
+from airflow.operators.dummy_operator import DummyOperator
 from airflow.operators.python import PythonOperator
+from airflow import DAG
 import boto3
-import subprocess
-import os
 
-# Default arguments
+# S3 Bucket and Object details
+S3_BUCKET = 'airflow-dags-production-bucket-new'
+SCRIPTS_PATH = 'scripts/pyspark/sample_script.py'  # Adjust this path based on your file location in the bucket
+OUTPUT_PATH = 'logs/output_script.py'  # The path where the output will be uploaded
+
+def download_and_upload_script():
+    """
+    Downloads a script from S3 and uploads it back to a different location in the same bucket.
+    """
+    s3 = boto3.client('s3')
+
+    # Define in-memory file paths for downloading and uploading
+    local_file = 'sample_script.py'
+    output_local_file = 'output_script.py'
+
+    # Download the script from S3
+    print(f"Downloading from S3://{S3_BUCKET}/{SCRIPTS_PATH} to {local_file}")
+    s3.download_file(S3_BUCKET, SCRIPTS_PATH, local_file)
+
+    print(f"Copying {local_file} to {output_local_file}")
+    with open(local_file, 'rb') as f:
+        with open(output_local_file, 'wb') as out_f:
+            out_f.write(f.read())
+
+    # Upload the output file back to S3
+    print(f"Uploading {output_local_file} to S3://{S3_BUCKET}/{OUTPUT_PATH}")
+    s3.upload_file(output_local_file, S3_BUCKET, OUTPUT_PATH)
+
+    # Return the file paths for debugging purposes
+    return output_local_file
+
 default_args = {
     'owner': 'airflow',
-    'depends_on_past': False,
     'start_date': datetime(2024, 11, 18),
-    'email_on_failure': False,
-    'email_on_retry': False,
-    'retries': 1,
-    'retry_delay': timedelta(minutes=5),
 }
 
-# Define S3 bucket and paths
-S3_BUCKET = "airflow-dags-production-bucket-new"
-SCRIPTS_PATH = "scripts/pyspark/sample_script.py"
-OUTPUT_PATH = "logs/output.txt"
-
-# Helper function to download script from S3
-def download_script_from_s3():
-    s3 = boto3.client('s3')
-    local_path = '/tmp/sample_script.py'
-    s3.download_file(S3_BUCKET, SCRIPTS_PATH, local_path)
-    return local_path
-
-# Helper function to upload output to S3
-def upload_output_to_s3():
-    s3 = boto3.client('s3')
-    local_output_path = '/tmp/output.txt'
-    s3.upload_file(local_output_path, S3_BUCKET, OUTPUT_PATH)
-
-# Task to execute the script
-def execute_script():
-    local_path = download_script_from_s3()
-    subprocess.run(['python3', local_path], check=True)
-    upload_output_to_s3()
-
-# Define DAG
 with DAG(
-    'script_execution_dag',
+    'wd_dag1',
     default_args=default_args,
-    description='DAG to execute a script from S3 and store output back to S3',
+    description='Workday DAG for testing script download and upload',
     schedule_interval=timedelta(days=1),
-    catchup=False,
     tags=['WORKDAY']
 ) as dag:
 
-    # Task to execute script
-    execute_script_task = PythonOperator(
-        task_id='execute_script',
-        python_callable=execute_script,
+    start = DummyOperator(
+        task_id='start'
     )
 
-    execute_script_task
+    download_and_upload_task = PythonOperator(
+        task_id='download_and_upload_script',
+        python_callable=download_and_upload_script
+    )
+
+    start >> download_and_upload_task
