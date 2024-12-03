@@ -14,6 +14,7 @@ S3_BUCKET = 'airflow-dags-production-bucket-new'
 SCRIPTS_PATH = 'scripts/pyspark/sample_script.py'  # Adjust this path based on your file location in the bucket
 OUTPUT_PATH = 'logs/output_script.py'  # The path where the output will be uploaded
 
+
 def download_and_upload_script():
     """
     Downloads a script from S3 and uploads it back to a different location in the same bucket.
