@@ -1,6 +1,6 @@
 """
 This DAG is responsible for processing Workday data.
-It performs X, Y, and Z steps in the workflow
+It performs X, Y, and Z steps in the workflow.
 """
 
 from datetime import datetime, timedelta  # Standard library import first
