@@ -1,10 +1,20 @@
 version: 0.2
 phases:
-  install:
-    commands:
+  # install:
+  #   commands:
+  #     - echo "Installing dependencies"
+  #     - pip install pytest flake8 pylint  # Install testing and linting tools
+
+  # pre_build:
+  #   commands:
+  #     - echo "Running linting and static code analysis"
+  #     - flake8 dags/ --max-line-length=120  # Check code formatting
+  #     - pylint dags/  # Run static code analysis
+      
   build:
     commands:
-      - echo "Deploying DAGs to S3"
+      # - echo "Testing completed successfully"
+      - echo "Deploying DAGs and scripts to S3"
       - aws s3 sync ./dags s3://airflow-dags-production-bucket-new/dags --delete --size-only
       - aws s3 sync ./scripts s3://airflow-dags-production-bucket-new/scripts --delete --size-only
       
