@@ -11,7 +11,7 @@ def test_dag_import():
     """
     Test that all DAGs can be successfully imported.
     """
-    dag_bag = DagBag(dag_folder="dags/", include_examples=False)
+    dag_bag = DagBag(dag_folder="./dags/", include_examples=False)
     assert len(dag_bag.dags) > 0, "No DAGs found in the DAG folder"
     assert len(dag_bag.import_errors) == 0, f"DAG import errors: {dag_bag.import_errors}"
     
