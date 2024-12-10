@@ -3,8 +3,8 @@ phases:
   install:
     commands:
       - echo "Installing dependencies"
-      - pip install -r requirements.txt
-      - pip install pytest flake8 pylint  # Install testing and linting tools
+      # - pip install -r requirements.txt
+      # - pip install pytest flake8 pylint  # Install testing and linting tools
 
   # pre_build:
   #   commands:
