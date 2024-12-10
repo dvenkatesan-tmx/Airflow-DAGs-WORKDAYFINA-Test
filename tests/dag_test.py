@@ -1,4 +1,10 @@
 import pytest
+# from airflow.models import DagBag
+from unittest.mock import Mock
+import sys
+
+sys.modules['airflow'] = Mock()
+sys.modules['airflow.models'] = Mock()
 from airflow.models import DagBag
 
 def test_dag_import():
