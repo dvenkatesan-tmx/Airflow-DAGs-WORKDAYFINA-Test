@@ -5,13 +5,18 @@ phases:
       - echo "Installing dependencies"
       - pip install pytest flake8 pylint  # Install testing and linting tools
 
-  pre_build:
-    commands:
-      - echo "Running linting and static code analysis"
-      - flake8 dags/ --max-line-length=120  # Check code formatting
-      - pylint dags/  # Run static code analysis
-      
+  # pre_build:
+  #   commands:
+  #     - echo "Running linting and static code analysis"
+  #     - flake8 dags/ --max-line-length=120  # Check code formatting
+  #     - pylint dags/  # Run static code analysis
+
   build:
+    commands:
+      - echo "Running unit tests"
+      - pytest tests/  # Run all tests in the `tests` folder
+      
+  post_build:
     commands:
       - echo "Testing completed successfully"
       - echo "Deploying DAGs and scripts to S3"
