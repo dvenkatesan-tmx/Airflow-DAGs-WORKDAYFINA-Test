@@ -4,7 +4,7 @@ phases:
     commands:
       - echo "Installing dependencies"
       # - pip install -r requirements.txt
-      - pip install pytest flake8 pylint apache-airflow # Install testing and linting tools
+      - pip install pytest flake8 pylint # Install testing and linting tools
 
   # pre_build:
   #   commands:
@@ -15,7 +15,7 @@ phases:
   build:
     commands:
       - echo "Running unit tests"
-      - pytest tests/  # Run all tests in the `tests` folder
+      - pytest ./tests/  # Run all tests in the `tests` folder
       
   post_build:
     commands:
