@@ -4,18 +4,19 @@ phases:
     commands:
       - echo "Installing dependencies"
       # - pip install -r requirements.txt
-      - pip install pytest flake8 pylint apache-airflow==2.6.3 # Install testing and linting tools
-
-  # pre_build:
-  #   commands:
-  #     - echo "Running linting and static code analysis"
-  #     - flake8 dags/ --max-line-length=120  # Check code formatting
-  #     - pylint dags/  # Run static code analysis
-
-  build:
+      # - pip install pytest flake8 pylint apache-airflow==2.6.3 # Install testing and linting tools
+        - pip install flake8
+        
+  pre_build:
     commands:
-      - echo "Running unit tests"
-      - pytest ./tests/  # Run all tests in the `tests` folder
+      - echo "Running linting and static code analysis"
+      - flake8 dags/ --max-line-length=120  # Check code formatting
+      # - pylint dags/  # Run static code analysis
+
+  # build:
+  #   commands:
+  #     - echo "Running unit tests"
+  #     - pytest ./tests/  # Run all tests in the `tests` folder
       
   post_build:
     commands:
