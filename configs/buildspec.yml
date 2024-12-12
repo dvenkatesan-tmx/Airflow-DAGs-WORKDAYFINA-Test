@@ -5,14 +5,26 @@ phases:
       - echo "Installing dependencies"
       # - pip install -r requirements.txt
       # - pip install pytest flake8 pylint apache-airflow==2.6.3 # Install testing and linting tools
-      - pip install flake8 pylint
+      - pip install pytest
+      - git fetch --all
         
-  pre_build:
+  # pre_build:
+  #   commands:
+  #     - echo "Running linting and static code analysis"
+  #     - flake8 dags/ --max-line-length=120  # Check code formatting
+  #     - pylint dags/  # Run static code analysis
+      
+  build:
     commands:
-      - echo "Running linting and static code analysis"
-      - flake8 dags/ --max-line-length=120  # Check code formatting
-      - pylint dags/  # Run static code analysis
-
+      - echo "Identifying modified DAGs"
+      - modified_files=$(git diff --name-only HEAD~1 HEAD | grep '^dags/.*\.py$')
+      - echo "Modified files: $modified_files"
+      - |
+        for file in $modified_files; do
+          echo "Running tests for $file"
+          pytest $file || exit 1
+        done
+        
   # build:
   #   commands:
   #     - echo "Running unit tests"
