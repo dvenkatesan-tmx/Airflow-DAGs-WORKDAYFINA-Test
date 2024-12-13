@@ -6,7 +6,7 @@ phases:
       # - pip install -r requirements.txt
       # - pip install pytest flake8 pylint apache-airflow==2.6.3 # Install testing and linting tools
       - pip install pytest
-      # - git fetch --all
+      - git fetch --all --depth=2
         
   # pre_build:
   #   commands:
