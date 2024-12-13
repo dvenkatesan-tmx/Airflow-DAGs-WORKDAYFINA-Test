@@ -19,11 +19,7 @@ phases:
       - echo "Identifying modified DAGs"
       - modified_files=$(git diff --name-only HEAD~1 HEAD | grep '^dags/.*\.py$')
       - echo "Modified files: $modified_files"
-      - |
-        for file in $modified_files; do
-          echo "Running tests for $file"
-          pytest $file || exit 1
-        done
+      - python -m pytest -v $MODIFIED_FILES
         
   # build:
   #   commands:
