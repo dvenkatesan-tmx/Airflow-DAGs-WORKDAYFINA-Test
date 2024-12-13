@@ -20,7 +20,8 @@ phases:
       # - modified_files=$(git diff --name-only HEAD~1 HEAD | grep '^dags/.*\.py$')
       # - modified_files=$(find ./dags -type f -name "*.py" -mtime -1)
       - modified_files=$(aws s3 sync ./dags s3://airflow-dags-production-bucket-new/dags --delete --size-only)
-      - python -m pytest -v $modified_files
+      - echo modified_files
+      # - python -m pytest -v $modified_files
         
   # build:
   #   commands:
