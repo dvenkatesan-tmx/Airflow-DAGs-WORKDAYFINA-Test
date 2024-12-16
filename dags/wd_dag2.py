@@ -5,7 +5,7 @@ It performs X, Y, and Z steps in the workflow.
 
 from datetime import datetime, timedelta  # Standard library import first
 
-from airflow.operators.dummy_operator import DummyOperator  # Corrected import path for Airflow 2.x
+from airflow.operators.dummy_operator import DummyOperator
 from airflow.operators.python import PythonOperator
 from airflow import DAG
 
