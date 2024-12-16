@@ -17,7 +17,7 @@ OUTPUT_PATH = 'logs/output_script.py'
 
 def download_and_upload_script():
     """
-    Downloads a script from S3 and uploads it back to a different location in the same
+    Downloads a script from S3 and uploads it back to a different location in the edp
     """
     s3 = boto3.client('s3')
 
