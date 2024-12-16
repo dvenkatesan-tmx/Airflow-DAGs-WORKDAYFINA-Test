@@ -11,7 +11,7 @@ import boto3
 
 # S3 Bucket and Object details
 S3_BUCKET = 'airflow-dags-production-bucket-new'
-SCRIPTS_PATH = 'scripts/pyspark/sample_script.py'  
+SCRIPTS_PATH = 'scripts/pyspark/sample_script.py'
 OUTPUT_PATH = 'logs/output_script.py'
 
 
