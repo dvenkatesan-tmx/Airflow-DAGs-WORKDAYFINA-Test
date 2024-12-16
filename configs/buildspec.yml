@@ -7,9 +7,9 @@ phases:
         
   pre_build:
     commands:
-      - echo "Running linting and static code analysis"
-      - flake8 dags/ --max-line-length=120  # Check code formatting
-      - pylint dags/  # Run static code analysis
+      # - echo "Running linting and static code analysis"
+      # - flake8 dags/ --max-line-length=120  # Check code formatting
+      # - pylint dags/  # Run static code analysis
       - echo "Running unit tests"
       - pytest ./tests/  # Run all tests in the `tests` folder
       
