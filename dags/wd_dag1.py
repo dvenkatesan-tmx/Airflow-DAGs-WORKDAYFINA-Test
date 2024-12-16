@@ -22,7 +22,7 @@ def download_and_upload_script():
     s3 = boto3.client('s3')
 
     # Define in-memory file paths for downloading and uploading
-    local_file = 'sample_script.py'   
+    local_file = 'sample_script.py'
     output_local_file = 'output_script.py'
 
     # Download the script from S3
