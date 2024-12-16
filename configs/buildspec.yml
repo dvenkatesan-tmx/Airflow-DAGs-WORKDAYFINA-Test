@@ -1,21 +1,37 @@
 version: 0.2
+
 phases:
   install:
     commands:
       - echo "Installing dependencies"
-      - pip install pytest flake8 pylint
-        
+      - pip install pytest flake8
+
   pre_build:
     commands:
       - echo "Running tests"
-      - flake8 dags/ --max-line-length=110  # Check code formatting
-      # - echo "Running unit tests"
-      # - pytest ./tests/  # Run all tests in the `tests` folder
-      
+      - |
+        if ! flake8 dags/ --max-line-length=85; then
+          ERROR_MSG="Flake8 formatting check failed."
+          aws sns publish --topic-arn arn:aws:sns:us-east-1:323225952044:FileMoveNotification \
+          --message "PRE_BUILD Phase Failed- ${ERROR_MSG}\n$(flake8 dags/ --max-line-length=85)" \
+          --subject "Build Failed- PRE_BUILD"
+          exit 1
+        fi
+
   post_build:
     commands:
       - echo "Testing completed successfully"
       - echo "Deploying DAGs and scripts to S3"
-      - aws s3 sync ./dags s3://airflow-dags-production-bucket-new/dags --delete --size-only
-      - aws s3 sync ./scripts s3://airflow-dags-production-bucket-new/scripts --delete --size-only
-      
+      - |
+        if aws s3 sync ./dags s3://airflow-dags-production-bucket-new/dags --delete --size-only && \
+           aws s3 sync ./scripts s3://airflow-dags-production-bucket-new/scripts --delete --size-only; then
+          aws sns publish --topic-arn arn:aws:sns:us-east-1:323225952044:FileMoveNotification \
+          --message "Deployment successful- DAGs and scripts have been deployed to S3." \
+          --subject "DAG Deployment Successful"
+        else
+          ERROR_MSG="S3 sync failed during deployment."
+          aws sns publish --topic-arn arn:aws:sns:us-east-1:323225952044:FileMoveNotification \
+          --message "POST_BUILD Phase Failed- ${ERROR_MSG}" \
+          --subject "Build Failed- POST_BUILD"
+          exit 1
+        fi
